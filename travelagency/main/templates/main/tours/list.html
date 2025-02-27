@@ -1,0 +1,126 @@
+{% extends "main/base.html" %}
+{% block title %}All Tours{% endblock %}
+
+{% block content %}
+<style>
+    .img-container {
+        height: 250px;
+        overflow: hidden;
+        position: relative;
+    }
+    
+    .card-img-fixed {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+    
+    .card:hover .card-img-fixed {
+        transform: scale(1.05);
+    }
+    
+    .card {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .card-body {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .card-footer {
+        background: transparent;
+        border-top: none;
+        padding: 1rem;
+    }
+
+    .card-body {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        padding-bottom: 0 !important;
+    }
+    
+    .card-footer {
+        margin-top: auto;
+        padding-top: 0;
+    }
+
+    .duration-badge {
+        min-width: 90px;
+        padding: 8px 12px;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        background: rgba(0, 255, 136, 0.15) !important;
+        color: #00ff88 !important;
+        border: 2px solid #00ff88;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        box-shadow: 0 2px 8px rgba(0, 255, 136, 0.1);
+    }
+    
+</style>
+
+<section class="py-5">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Our Tour Packages</h2>
+            <form class="d-flex" method="GET" action="{% url 'search' %}">
+                <input type="search" name="q" class="form-control" placeholder="Search tours...">
+                <button class="btn btn-primary ms-2">Search</button>
+            </form>
+        </div>
+        
+        <div class="row g-4">
+            {% for tour in tours %}
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm">
+                    <a href="{% url 'tour_detail' tour.slug %}" class="text-decoration-none text-dark">
+                        <div class="img-container">
+                            <img src="{{ tour.featured_image.url }}" 
+                                 class="card-img-fixed" 
+                                 alt="{{ tour.title }}">
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title mt-3">{{ tour.title }}</h5>
+                            <p class="card-text text-muted mb-3">{{ tour.overview|truncatewords:20 }}</p>
+                            <div class="d-flex justify-content-between align-items-center mt-auto">
+                                <div class="d-flex align-items-center">
+                                    <span class="duration-badge">
+                                        <i class="bi bi-clock"></i>
+                                        {{ tour.duration }}
+                                    </span>
+                                </div>
+                                <div class="text-end">
+                                    <span class="text-muted small d-block">From</span>
+                                    <span class="text-success fw-bold fs-5">
+                                        ${{ tour.price|floatformat:"0" }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <div class="card-footer">
+                        <a href="{% url 'tour_detail' tour.slug %}" class="btn btn-primary w-100">
+                            View Details
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12">
+                <div class="alert alert-info text-center">No tours available</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

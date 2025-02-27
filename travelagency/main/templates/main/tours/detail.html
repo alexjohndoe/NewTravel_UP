@@ -1,0 +1,126 @@
+{% extends "main/base.html" %}
+{% block title %}{{ tour.title }} - Bali Kailash Adventure{% endblock %} 
+{% block content %}
+<section class="tour-detail py-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <h1 class="mb-4" mt-3>{{ tour.title }}</h1>
+                <img src="{{ tour.featured_image.url }}" class="img-fluid rounded-3 my-4" alt="{{ tour.title }}">
+                
+                <div class="overview-section mb-5">
+                    <h3 class="mb-3 border-bottom pb-2">Overview</h3>
+                    <div class="text-justify">
+                        {{ tour.overview|linebreaks }}
+                    </div>
+                </div>
+
+                {% if itinerary_lines %}
+                <div class="itinerary-section mb-5">
+                    <h3 class="mb-3 border-bottom pb-2">Daily Itinerary</h3>
+                    <div class="accordion" id="itineraryAccordion">
+                        {% for day in itinerary_lines %}
+                        <div class="accordion-item">
+                            <h3 class="accordion-header" id="heading{{ forloop.counter }}">
+                                <button class="accordion-button collapsed" type="button" 
+                                        data-bs-toggle="collapse" 
+                                        data-bs-target="#collapse{{ forloop.counter }}"
+                                        aria-expanded="false" 
+                                        aria-controls="collapse{{ forloop.counter }}">
+                                    <strong>Day {{ forloop.counter }}</strong>
+                                </button>
+                            </h3>
+                            <div id="collapse{{ forloop.counter }}" 
+                                 class="accordion-collapse collapse" 
+                                 aria-labelledby="heading{{ forloop.counter }}" 
+                                 data-bs-parent="#itineraryAccordion">
+                                <div class="accordion-body text-justify">
+                                    {{ day|linebreaksbr }}
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% else %}
+                <div class="alert alert-info mt-4">
+                    <h4 class="alert-heading">⚠️ Itinerary Information</h4>
+                    <p class="mb-0">
+                        Detailed itinerary is currently being updated. 
+                        Please <a href="{% url 'contact' %}" class="alert-link">contact us</a> 
+                        for preliminary schedule details.
+                    </p>
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="col-lg-4">
+                <div class="card shadow-lg sticky-top" style="top: 20px;">
+                    <div class="card-body">
+                        <h5 class="card-title mb-4">Tour Details</h5>
+                        <ul class="list-group list-group-flush mb-4">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span><i class="bi bi-clock-history me-2"></i>Duration</span>
+                                <strong>{{ tour.duration }}</strong>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span><i class="bi bi-currency-dollar me-2"></i>Price</span>
+                                <strong>${{ tour.price }}</strong>
+                            </li>
+                        </ul>
+                        
+                        <div class="d-grid">
+                            <a href="#" class="btn btn-primary btn-lg">
+                                <i class="bi bi-calendar-check me-2"></i>Book Now
+                            </a>
+                        </div>
+
+                        <div class="mt-4 pt-3 border-top">
+                            <h5 class="mb-3">Package Includes</h5>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                    Professional Guide
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                    Transportation
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                    Accommodation
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                    Travel Insurance
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .accordion-button:not(.collapsed) {
+        background-color: #f8f9fa;
+        color: #333;
+        box-shadow: none;
+    }
+    .accordion-body {
+        background-color: #f8f9fa;
+        padding: 1.5rem;
+    }
+    .text-justify {
+        text-align: justify;
+        text-justify: inter-word;
+        line-height: 1.7;
+    }
+    .alert-info {
+        background-color: #e7f5ff;
+        border-color: #9ac9f5;
+    }
+</style>
+{% endblock %}

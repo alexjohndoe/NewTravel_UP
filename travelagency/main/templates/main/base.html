@@ -1,0 +1,126 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %} - Bali Kailash Yatra Everest Adventure</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="{% static 'main/css/header.css' %}" rel="stylesheet">
+    <link href="{% static 'main/css/destinations.css' %}" rel="stylesheet">
+    <link href="{% static 'main/css/footer.css' %}" rel="stylesheet">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+            <div class="container">
+                <!-- Logo -->
+                <a class="navbar-brand" href="{% url 'home' %}">
+                    <img src="{% static 'main/images/logo_ratio_1_1.png' %}" 
+                         alt="Bali Kailash Yatra Everest Adventure Logo" 
+                         class="header-logo">
+                </a>
+
+                <!-- Mobile Toggle -->
+                <button class="navbar-toggler" type="button" 
+                        data-bs-toggle="collapse" 
+                        data-bs-target="#mainNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Navigation -->
+                <div class="collapse navbar-collapse" id="mainNav">
+                    <ul class="navbar-nav mx-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'tour_list' %}">Tours</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'blog_list' %}">Blog</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'gallery' %}">Gallery</a>
+                        </li>
+                    </ul>
+
+                    <!-- Right Section -->
+                    <div class="header-right d-flex align-items-center">
+                        <div class="social-icons me-4 d-none d-lg-block">
+                            <a href="#" class="text-white me-3"><i class="bi bi-facebook"></i></a>
+                            <a href="#" class="text-white me-3"><i class="bi bi-instagram"></i></a>
+                            <a href="#" class="text-white"><i class="bi bi-twitter-x"></i></a>
+                        </div>
+                        <a href="{% url 'contact' %}" class="btn btn-contact">
+                            Contact Us
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-5 mb-lg-0">
+                    <div class="footer-logo">
+                        <img src="{% static 'main/images/logo_ratio_1_1.png' %}" alt="Bali Kailash Adventure Logo">
+                    </div>
+                    <p class="text">Bali Kailash Yatra Everest Adventure | Bali Best Travel Agency Since 2024</p>
+                    <div class="embed-responsive embed-responsive-16by9 mb-4">
+                        <iframe class="embed-responsive-item rounded" 
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3162.5094296166247!2d115.1734726!3d-8.7617872!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd2450035272d17:0xad24a3dd528f3f9c!2sBali%20Kailash%20Yatra%20Everest%20Adventure!5e0!3m2!1sen!2sid!4v1688946276301!5m2!1sen!2sid"
+                                style="border:0;" allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+                
+                <div class="col-lg-2 col-6 mb-5">
+                    <h5>Quick Links</h5>
+                    <div class="footer-links">
+                        <a href="{% url 'tour_list' %}">All Tours</a>
+                        <a href="{% url 'gallery' %}">Gallery</a>
+                        <a href="{% url 'blog_list' %}">Travel Blog</a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-6 mb-5">
+                    <h5>Contact</h5>
+                    <div class="footer-links">
+                        <a href="https://wa.me/62812345678"><i class="bi bi-phone me-2"></i>+62812345678</a>
+                        <a href="mailto:info@example.com"><i class="bi bi-envelope me-2"></i>info@example.com</a>
+                        <a href="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3162.5094296166247!2d115.1734726!3d-8.7617872!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd2450035272d17:0xad24a3dd528f3f9c!2sBali%20Kailash%20Yatra%20Everest%20Adventure!5e0!3m2!1sen!2sid!4v1688946276301!5m2!1sen!2sid">
+                        <p class="text mt-3">Gg. Klp. Buntu No.2, Kedonganan, Kec. Kuta, Kabupaten Badung, Bali 80361</p></a>
+                    </div>
+                </div>
+                  
+                
+                <div class="col-lg-3 mb-5">
+                    <h5>Follow Us</h5>
+                    <div class="social-icons">
+                        <a href="#"><i class="bi bi-facebook"></i></a>
+                        <a href="#"><i class="bi bi-instagram"></i></a>
+                        <a href="#"><i class="bi bi-twitter-x"></i></a>
+                        <a href="#"><i class="bi bi-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p class="text small mb-0">&copy; 2024 Bali Kailash Yatra Everest Adventure. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

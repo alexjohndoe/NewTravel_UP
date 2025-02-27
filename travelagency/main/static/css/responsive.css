@@ -1,0 +1,22 @@
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .hero-content {
+        padding-top: 30%;
+    }
+    
+    .hero-content h1 {
+        font-size: 2rem;
+    }
+    
+    .navbar-brand img {
+        height: 35px;
+    }
+    
+    .footer-section {
+        text-align: center;
+    }
+    
+    .social-links {
+        justify-content: center;
+    }
+}

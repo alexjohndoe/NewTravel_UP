@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="dashboard-container">
+    <!-- Sidebar -->
+    <div class="dashboard-sidebar">
+        <div class="profile-summary">
+            <img src="{{ user_profile.profile_picture.url }}" alt="Profile" class="profile-picture">
+            <h4>{{ user.get_full_name }}</h4>
+            <p>Member since {{ user.date_joined|date:"M Y" }}</p>
+        </div>
+        <nav class="dashboard-menu">
+            <a href="#bookings" class="active">My Bookings</a>
+            <a href="#testimonials">My Reviews</a>
+            <a href="#settings">Account Settings</a>
+            {% if user.user_type != 'USER' %}
+            <a href="#admin">Admin Panel</a>
+            {% endif %}
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="dashboard-content">
+        <!-- Bookings Section -->
+        <section id="bookings">
+            <h3>Upcoming Trips</h3>
+            <div class="booking-list">
+                {% for booking in bookings %}
+                <div class="booking-card">
+                    <div class="booking-header">
+                        <h5>{{ booking.tour.name }}</h5>
+                        <span class="status-badge {{ booking.status|lower }}">
+                            {{ booking.get_status_display }}
+                        </span>
+                    </div>
+                    <div class="booking-details">
+                        <p>Date: {{ booking.travel_date|date:"d M Y" }}</p>
+                        <p>Participants: {{ booking.participants }}</p>
+                        <p>Booked on: {{ booking.booking_date|date:"d M Y H:i" }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <!-- Admin Section -->
+        {% if user.user_type != 'USER' %}
+        <section id="admin">
+            <h3>Admin Panel</h3>
+            <div class="admin-stats">
+                <div class="stat-card">
+                    <h4>Pending Bookings</h4>
+                    <p class="stat-number">{{ pending_bookings.count }}</p>
+                </div>
+                <div class="stat-card">
+                    <h4>Unapproved Reviews</h4>
+                    <p class="stat-number">{{ pending_testimonials.count }}</p>
+                </div>
+            </div>
+        </section>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
