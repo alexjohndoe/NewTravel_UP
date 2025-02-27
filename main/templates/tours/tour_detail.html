@@ -1,0 +1,30 @@
+<div class="booking-widget card shadow">
+    <div class="card-body">
+        <h5 class="card-title mb-4">Book This Tour</h5>
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label class="form-label">Travel Date</label>
+                <input type="date" class="form-control" name="travel_date" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Participants</label>
+                <select class="form-select" name="participants">
+                    <option value="1">1 Person</option>
+                    <option value="2">2 People</option>
+                    <option value="3">3 People</option>
+                    <option value="4">4 People</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-success w-100">
+                <i class="fas fa-calendar-check me-2"></i>Book Now
+            </button>
+        </form>
+        <div class="text-center mt-3">
+            <small class="text-muted">Or contact us directly:</small>
+            <a href="{{ whatsapp_link }}" class="btn btn-outline-success w-100 mt-2">
+                <i class="fab fa-whatsapp me-2"></i>Chat on WhatsApp
+            </a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,33 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% block title %} GALLERY {% endblock %}
+{% block content %}
+<section class="gallery-category py-5">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'gallery' %}">Gallery | Bali Kailash Yatra Everest Adventure</a></li>
+                <li class="breadcrumb-item active">{{ category.name }}</li>
+            </ol>
+        </nav>
+        
+        <h2 class="mb-5">{{ category.name }} Photos</h2>
+        
+        <div class="row g-4">
+            {% for image in images %}
+            <div class="col-md-4 col-lg-3">
+                <div class="gallery-item card shadow">
+                    <img src="{{ image.image.url }}" 
+                         class="card-img-top" 
+                         alt="{{ image.caption }}"
+                         style="height: 200px; object-fit: cover;">
+                    <div class="card-body">
+                        <p class="card-text text-muted small">{{ image.caption }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

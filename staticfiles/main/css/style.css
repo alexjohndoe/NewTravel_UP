@@ -1,0 +1,45 @@
+:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #e74c3c;
+    --light-bg: #f8f9fa;
+    --dark-text: #2c3e50;
+}
+
+.contact-section {
+    background-color: var(--light-bg);
+}
+
+.contact-info li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.testimonial-section .card {
+    transition: transform 0.3s ease;
+    border: none;
+}
+
+.testimonial-section .card:hover {
+    transform: translateY(-5px);
+}
+
+@media (max-width: 768px) {
+    .contact-section .row > div {
+        margin-bottom: 2rem;
+    }
+    
+    .testimonial-section .card {
+        margin-bottom: 1.5rem;
+    }
+}
+
+/* Bootstrap overrides */
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+}

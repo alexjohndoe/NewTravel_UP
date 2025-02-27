@@ -1,0 +1,301 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+<style>
+    .hero-section {
+        height: 60vh;
+        background-size: cover;
+        background-position: center;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .hero-overlay {
+        background: rgba(0, 0, 0, 0.5);
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+    }
+    
+    .hero-content {
+        position: relative;
+        z-index: 2;
+    }
+
+    .hero-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        transition: opacity 1s ease-in-out;
+        background-size: cover;
+        background-position: center;
+    }
+
+    .hero-image.active {
+        opacity: 1;
+    }
+    .section-py {
+        padding: 5rem 0;
+    }
+    
+    .destination-card {
+        transition: transform 0.3s ease;
+        border: none;
+        overflow: hidden;
+    }
+    
+    .destination-card:hover {
+        transform: translateY(-5px);
+    }
+    
+    .destination-image {
+        height: 250px;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+    
+    .destination-card:hover .destination-image {
+        transform: scale(1.05);
+    }
+    
+    .post-card {
+        border: none;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+        /* Uniform Card Image Sizing */
+        .card-img-fixed {
+        height: 250px;
+        width: 100%;
+        object-fit: cover;
+        object-position: center;
+    }
+
+    /* Image Container for Hover Effect */
+    .img-container {
+        overflow: hidden;
+        position: relative;
+    }
+    
+    .img-hover-zoom {
+        transition: transform 0.3s ease;
+    }
+    
+    .card:hover .img-hover-zoom {
+        transform: scale(1.05);
+    }
+
+    /* Consistent Card Heights */
+    .card {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .card-body {
+        flex: 1;
+    }
+
+</style>
+
+<!-- Hero Section -->
+<section class="hero-section">
+    {% for img in hero_images %}
+    <div class="hero-image {% if forloop.first %}active{% endif %}" 
+         style="background-image: url('{% static img %}')"></div>
+    {% endfor %}
+    
+    <div class="hero-overlay">
+        <div class="container h-100">
+            <div class="row h-100 align-items-center">
+                <div class="col-12 text-center hero-content">
+                    <h1 class="display-4 mb-4 text-white">Discover Your Next Adventure</h1>
+                    <form class="d-flex justify-content-center" method="GET" action="{% url 'search' %}">
+                        <input type="search" name="q" class="form-control w-50 me-2" 
+                               placeholder="Search destinations..." required>
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Tours Section -->
+<section class="py-5">
+    <div class="container">
+        <h2 class="mb-4 text-center">Featured Tours</h2>
+        <div class="row g-4">
+            {% for tour in featured_tours %}
+            <div class="col-md-4">
+                <div class="card h-100 shadow">
+                    <div class="img-container">
+                        <img src="{{ tour.featured_image.url }}" 
+                             class="card-img-top card-img-fixed img-hover-zoom" 
+                             alt="{{ tour.title }}">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ tour.title }}</h5>
+                        <div class="d-flex justify-content-between mb-3">
+                            <span class="badge bg-primary">{{ tour.duration }}</span>
+                            <span class="text-danger fw-bold">${{ tour.price }}</span>
+                        </div>
+                        <a href="{% url 'tour_detail' tour.slug %}" class="btn btn-outline-primary w-100">
+                            View Details
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center">
+                <div class="alert alert-info">No featured tours available</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Popular Destinations Section -->
+<section class="section-py bg-dark">
+    <div class="container">
+        <h2 class="mb-5 text-center text-white">Popular Destinations</h2>
+        <div class="row g-4">
+            {% for destination in destinations %}
+            <div class="col-lg-3 col-md-6">
+                <div class="card h-100 destination-card">
+                    <a href="{% url 'destination_detail' destination.slug %}" class="stretched-link"></a>
+                    <div class="img-container">
+                        <img src="{{ destination.image.url }}" 
+                             class="card-img-top card-img-fixed" 
+                             alt="{{ destination.name }}">
+                    </div>
+                    <div class="destination-content">
+                        <h5 class="destination-title">{{ destination.name }}</h5>
+                        <p class="destination-description">{{ destination.short_description }}</p>
+                        <div class="destination-location">
+                            <i class="bi bi-geo-alt"></i> {{ destination.location }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center">
+                <div class="alert alert-info">No destinations available</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Recent Posts Section -->
+<section class="section-py">
+    <div class="container">
+        <h2 class="mb-5 text-center">Recent Blog Posts</h2>
+        <div class="row g-4">
+            {% for post in recent_posts %}
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100 post-card">
+                    <img src="{{ post.featured_image.url }}" 
+                         class="card-img-top" 
+                         alt="{{ post.title }}"
+                         style="height: 200px; object-fit: cover;">
+                    <div class="card-body">
+                        <small class="text-muted">{{ post.published_at|date:"M d, Y" }}</small>
+                        <h5 class="card-title mt-2">{{ post.title }}</h5>
+                        <p class="card-text text-muted">{{ post.content|striptags|truncatechars:100 }}</p>
+                        <a href="{% url 'blog_detail' post.slug %}" 
+                           class="btn btn-outline-primary">
+                            Read More
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center">
+                <div class="alert alert-info">No recent posts available</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="section-py bg-light">
+    <div class="container">
+        <h2 class="section-title">Frequently Asked Questions</h2>
+        <div class="accordion" id="faqAccordion">
+            {% for faq in faqs %}
+            <div class="accordion-item">
+                <h3 class="accordion-header">
+                    <button class="accordion-button {% if not forloop.first %}collapsed{% endif %}" 
+                            type="button" 
+                            data-bs-toggle="collapse" 
+                            data-bs-target="#faq{{ faq.id }}">
+                        {{ faq.question }}
+                    </button>
+                </h3>
+                <div id="faq{{ faq.id }}" 
+                     class="accordion-collapse collapse {% if forloop.first %}show{% endif %}" 
+                     data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        {{ faq.answer|linebreaks }}
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="text-center text-muted py-4">
+                No FAQs available yet. Check back later!
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<script>
+    // Hero image rotation
+    const heroImages = document.querySelectorAll('.hero-image');
+    let currentImageIndex = 0;
+    
+    function rotateHeroImages() {
+        // Remove active class from current image
+        heroImages[currentImageIndex].classList.remove('active');
+        
+        // Calculate next image index
+        currentImageIndex = (currentImageIndex + 1) % heroImages.length;
+        
+        // Add active class to next image
+        heroImages[currentImageIndex].classList.add('active');
+    }
+
+    // Start rotation
+    let rotationInterval = setInterval(rotateHeroImages, 10000);
+
+    // Pause rotation on hover
+    const heroSection = document.querySelector('.hero-section');
+    heroSection.addEventListener('mouseenter', () => clearInterval(rotationInterval));
+    heroSection.addEventListener('mouseleave', () => {
+        rotationInterval = setInterval(rotateHeroImages, 10000);
+    });
+
+    // Preload images
+    window.addEventListener('load', () => {
+        {% for img in hero_images %}
+        new Image().src = "{% static img %}";
+        {% endfor %}
+    });
+</script>
+
+<div class="debug" style="display: none;">
+    {% for img in hero_images %}
+    <p>Image path: {% static img %}</p>
+    {% endfor %}
+</div>
+{% endblock %}

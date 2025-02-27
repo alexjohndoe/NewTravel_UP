@@ -1,0 +1,36 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% load custom_filters %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="mb-4 text-center">Explore Our Destinations</h1>
+    
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {% for destination in destinations %}
+        <div class="col">
+            <div class="card h-100 shadow">
+                <img src="{{ destination.image.url }}" 
+                     class="card-img-top" 
+                     alt="{{ destination.name }}"
+                     style="height: 250px; object-fit: cover;">
+                <div class="card-body">
+                    <h2 class="card-title h5">{{ destination.name }}</h2>
+                    <p class="card-text">{{ destination.short_description }}</p>
+                </div>
+                <div class="card-footer bg-white">
+                    <a href="{% url 'destination_detail' destination.slug %}" 
+                       class="btn btn-primary w-100">
+                        Learn More
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info">No destinations available yet.</div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

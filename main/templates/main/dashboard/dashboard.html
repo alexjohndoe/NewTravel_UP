@@ -1,0 +1,47 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container py-5">
+    <h2 class="mb-4">Your Dashboard</h2>
+    
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-body text-center">
+                    <img src="{{ user_profile.profile_picture.url }}" 
+                         class="rounded-circle mb-3" 
+                         width="150" 
+                         alt="Profile Picture">
+                    <h3>{{ request.user.get_full_name }}</h3>
+                    <p class="text-muted">{{ request.user.email }}</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Your Bookings</h4>
+                </div>
+                <div class="card-body">
+                    {% if bookings %}
+                        <div class="list-group">
+                            {% for booking in bookings %}
+                            <div class="list-group-item">
+                                <h5>{{ booking.tour.title }}</h5>
+                                <p>Date: {{ booking.travel_date }}<br>
+                                Participants: {{ booking.participants }}<br>
+                                Status: <span class="badge bg-{{ booking.status|lower }}">{{ booking.status }}</span></p>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="alert alert-info">No bookings found.</div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

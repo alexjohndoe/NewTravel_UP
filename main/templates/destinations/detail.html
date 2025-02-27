@@ -1,0 +1,122 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% load custom_filters %}
+
+{% block title %}{{ destination.name }} Details - Bali Kailash Adventure{% endblock %}
+
+{% block content %}
+<section class="destination-detail py-5">
+    <div class="container">
+        <div class="row g-5">
+            <!-- Main Content -->
+            <div class="col-lg-8">
+                <div class="destination-header mb-5">
+                    <h1 class="display-5 fw-bold mb-3">{{ destination.name }}</h1>
+                    <div class="meta-info">
+                        <span class="badge bg-primary me-2">
+                            <i class="bi bi-geo-alt"></i> {{ destination.location }}
+                        </span>
+                        <span class="badge bg-success">
+                            <i class="bi bi-calendar3"></i> Best Time: {{ destination.best_time_to_visit }}
+                        </span>
+                    </div>
+                </div>
+
+                <div class="destination-image mb-5">
+                    <img src="{{ destination.image.url }}" 
+                         class="img-fluid rounded-3 shadow" 
+                         alt="{{ destination.name }}">
+                </div>
+
+                <div class="destination-content mb-5">
+                    <h3 class="mb-4">About | NEW TEMPLATE{{ destination.name }}</h3>
+                    <div class="content-text">
+                        {{ destination.full_description|linebreaks }}
+                    </div>
+                </div>
+
+                <div class="activities-section mb-5">
+                    <h3 class="mb-4">Popular Activities</h3>
+                    <div class="row g-3">
+                        {% for activity in destination.popular_activities|split:"," %}
+                        <div class="col-md-6">
+                            <div class="card activity-card">
+                                <div class="card-body">
+                                    <i class="bi bi-activity me-2"></i>
+                                    {{ activity|title }}
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="col-lg-4">
+                <div class="card shadow-lg sticky-top" style="top: 20px;">
+                    <div class="card-body">
+                        <h4 class="card-title mb-4">Featured Tours</h4>
+                        
+                        {% if related_tours %}
+                            <div class="tour-list">
+                                {% for tour in related_tours %}
+                                <div class="card mb-3">
+                                    <img src="{{ tour.featured_image.url }}" 
+                                         class="card-img-top" 
+                                         alt="{{ tour.title }}">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ tour.title }}</h5>
+                                        <div class="d-flex justify-content-between">
+                                            <span class="text-primary">{{ tour.duration }}</span>
+                                            <strong class="text-success">${{ tour.price }}</strong>
+                                        </div>
+                                        <a href="{% url 'tour_detail' tour.slug %}" 
+                                           class="btn btn-primary w-100 mt-2">
+                                            View Tour
+                                        </a>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="alert alert-info">
+                                No specific tours found for this destination.
+                                <a href="{% url 'tour_list' %}" class="alert-link">
+                                    Browse all tours
+                                </a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .destination-image img {
+        height: 500px;
+        object-fit: cover;
+        object-position: center;
+    }
+    
+    .activity-card {
+        transition: transform 0.2s;
+        border-left: 4px solid #00ff88;
+    }
+    
+    .activity-card:hover {
+        transform: translateY(-3px);
+    }
+    
+    .split:after {
+        content: ", ";
+    }
+    
+    .split:last-child:after {
+        content: "";
+    }
+</style>
+
+{% endblock %}
